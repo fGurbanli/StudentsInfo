@@ -57,27 +57,30 @@ void PrintMenu()
 
 void AddStudent()
 {
-    FILE* studentList = fopen("studentList", "a");
+    FILE* studentList = fopen("studentList.txt", "a");
 
     if (studentList == NULL) {
         printf("\nFile couldn't be openned!");
         return;
     }
 
-    char temp[50];
+    char temp1[50];
+    char temp2[50];
+    char temp3[50];
 
     while (getchar() != '\n');
     printf("\nPlease write a name of the student: ");
-    fgets(temp, sizeof(temp), stdin);
-    fprintf(studentList, "%s", temp);
+    fgets(temp1, sizeof(temp1), stdin);
+    temp1[strcspn(temp1, "\n")] = '\0';
 
     printf("\nPlease write a year of the student: ");
-    fgets(temp, sizeof(temp), stdin);
-    fprintf(studentList, "%s", temp);
+    fgets(temp2, sizeof(temp2), stdin);
+    temp2[strcspn(temp2, "\n")] = '\0';
 
     printf("\nPlease write gpa of the student: ");
-    fgets(temp, sizeof(temp), stdin);
-    fprintf(studentList, "%s\n\n", temp);
+    fgets(temp3, sizeof(temp3), stdin);
+    temp3[strcspn(temp3, "\n")] = '\0';
+    fprintf(studentList, "Name: %s, year: %s, gpa:%s\n", temp1,temp2,temp3);
 
     printf("\nStudent added succesfully!\n");
 
@@ -86,7 +89,13 @@ void AddStudent()
 
 void ListStudent()
 {
-    FILE* studentList = fopen("studentList", "r");
+    FILE* studentList = fopen("studentList.txt", "r");
+
+    if (studentList == NULL)
+    {
+        printf("File couldn't be opened!\n");
+        return;
+    }
 
     char line[50];
 
@@ -94,6 +103,8 @@ void ListStudent()
     {
         printf("%s", line);
     }
+
+    fclose(studentList);
 }
 
 int GetIntInput() {
