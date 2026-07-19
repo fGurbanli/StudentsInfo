@@ -24,6 +24,7 @@ int main(void) {
         {
             case 1:
                 printf("\nOpenning the student list...\n");
+                ListStudent();
                 break;
             case 2:
                 printf("\nOpenning...\n");
@@ -76,11 +77,23 @@ void AddStudent()
 
     printf("\nPlease write gpa of the student: ");
     fgets(temp, sizeof(temp), stdin);
-    fprintf(studentList, "%s", temp);
+    fprintf(studentList, "%s\n\n", temp);
 
-    printf("\nStudent added succesfully!");
+    printf("\nStudent added succesfully!\n");
 
     fclose(studentList);
+}
+
+void ListStudent()
+{
+    FILE* studentList = fopen("studentList", "r");
+
+    char line[50];
+
+    while (fgets(line, sizeof(line), studentList) != NULL)
+    {
+        printf("%s", line);
+    }
 }
 
 int GetIntInput() {
