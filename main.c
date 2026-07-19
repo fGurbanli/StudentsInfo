@@ -53,6 +53,7 @@ int main(void) {
                 DeleteStudent(&order);
                 break;
             case 0:
+                fclose(studentList);
                 exit(0);
             default:
                 printf("\nEnter a valid value!\n");
@@ -74,6 +75,10 @@ void PrintMenu()
 void AddStudent(int* order)
 {
     FILE* studentList = fopen("studentList.txt", "a+");
+    if (studentList == NULL) {
+        printf("\nFile couldn't be openned!");
+        return ;
+    }
 
     char temp1[500];
     char temp2[500];
@@ -91,7 +96,7 @@ void AddStudent(int* order)
     printf("\nPlease write gpa of the student: ");
     fgets(temp3, sizeof(temp3), stdin);
     temp3[strcspn(temp3, "\n")] = '\0';
-    fprintf(studentList, "%d-)Name: %s, year: %s, gpa: %s\n",*order, temp1,temp2,temp3);
+    fprintf(studentList, "%s;%s;%s\n", temp1,temp2,temp3);
 
     printf("\nStudent added succesfully!\n");
 
@@ -122,6 +127,23 @@ void ListStudent()
 
 void DeleteStudent(int* order)
 {
+    FILE* temp = fopen("temp.txt", "w");
+    FILE* studentList = fopen("studentList.txt", "r");
+
+    char line[200];
+    int newLine = 1;
+
+    if (studentList == NULL) {
+        printf("\nFile couldn't be openned!");
+        return;
+    }
+
+    if (temp == NULL) {
+        printf("\nFile couldn't be openned!");
+        fclose(temp);
+        fclose(studentList);
+        return;
+    }
     ListStudent();
     printf("\nEnter the index of the student you want to delete: ");
 
@@ -132,6 +154,27 @@ void DeleteStudent(int* order)
         return;
     }
 
+    while (fgets(line, sizeof(line), studentList) != NULL) {
+        if (newLine != input) {
+            fputs(line, temp);
+        }
+        newLine++;
+    }
+
+    fclose(temp);
+    fclose(studentList);
+
+    if (remove("studentList.txt") != 0)
+    {
+        printf("Delete failed!\n");
+    }
+
+    if (rename("temp.txt", "studentList.txt") != 0)
+    {
+        printf("Rename failed!\n");
+    }
+
+    (*order)--;
 }
 
 int GetIntInput() {
