@@ -15,7 +15,32 @@ void SearchStudent();
 
 int main(void) {
 
-    PrintMenu();
+
+    while (1)
+    {
+        PrintMenu();
+        int option = GetIntInput();
+        switch (option)
+        {
+            case 1:
+                printf("\nOpenning the student list...\n");
+                break;
+            case 2:
+                printf("\nOpenning...\n");
+                break;
+            case 3:
+                printf("\nOpenning student search system...\n");
+                break;
+            case 4:
+                printf("\nOpenning deleting system...\n");
+                break;
+            case 0:
+                exit(0);
+            default:
+                printf("\nEnter a valid value!\n");
+                break;
+        }
+    }
 
     return 0;
 }
@@ -30,15 +55,18 @@ void PrintMenu()
     printf("\n0- Exit\n");
 }
 
+
+
 int GetIntInput() {
     int input;
 
     while (1)
     {
-        if (scanf("%d", &input) == 1) break;
+        if (scanf("%d", &input) == 1 && input >= 0) break;
+        printf("\nEnter a valid value!");
+        while (getchar() != '\n');
     }
-    printf("\nEnter a valid value!");
-    while (getchar() != '\n');
+
     return input;
 }
 float GetFloatInput() {
@@ -47,8 +75,9 @@ float GetFloatInput() {
     while (1)
     {
         if (scanf("%f", &input) == 1) break;
+        printf("\nEnter a valid value!");
+        while (getchar() != '\n');
     }
-    printf("\nEnter a valid value!");
-    while (getchar() != '\n');
+
     return input;
 }
