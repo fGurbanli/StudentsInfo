@@ -57,16 +57,22 @@ void PrintMenu()
 
 void AddStudent()
 {
-    FILE* studentList = fopen("studentList.txt", "a");
+    int order = 1;
+    FILE* studentList = fopen("studentList.txt", "a+");
+
+    rewind(studentList);
 
     if (studentList == NULL) {
         printf("\nFile couldn't be openned!");
         return;
     }
-
     char temp1[50];
     char temp2[50];
     char temp3[50];
+
+    while (fgets(temp1, sizeof(temp1), studentList) != NULL) {
+        order++;
+    }
 
     while (getchar() != '\n');
     printf("\nPlease write a name of the student: ");
@@ -80,7 +86,7 @@ void AddStudent()
     printf("\nPlease write gpa of the student: ");
     fgets(temp3, sizeof(temp3), stdin);
     temp3[strcspn(temp3, "\n")] = '\0';
-    fprintf(studentList, "Name: %s, year: %s, gpa:%s\n", temp1,temp2,temp3);
+    fprintf(studentList, "%d-)Name: %s, year: %s, gpa: %s\n",order, temp1,temp2,temp3);
 
     printf("\nStudent added succesfully!\n");
 
