@@ -27,6 +27,7 @@ int main(void) {
                 break;
             case 2:
                 printf("\nOpenning...\n");
+                AddStudent();
                 break;
             case 3:
                 printf("\nOpenning student search system...\n");
@@ -41,8 +42,6 @@ int main(void) {
                 break;
         }
     }
-
-    return 0;
 }
 
 void PrintMenu()
@@ -55,7 +54,34 @@ void PrintMenu()
     printf("\n0- Exit\n");
 }
 
+void AddStudent()
+{
+    FILE* studentList = fopen("studentList", "a");
 
+    if (studentList == NULL) {
+        printf("\nFile couldn't be openned!");
+        return;
+    }
+
+    char temp[50];
+
+    while (getchar() != '\n');
+    printf("\nPlease write a name of the student: ");
+    fgets(temp, sizeof(temp), stdin);
+    fprintf(studentList, "%s", temp);
+
+    printf("\nPlease write a year of the student: ");
+    fgets(temp, sizeof(temp), stdin);
+    fprintf(studentList, "%s", temp);
+
+    printf("\nPlease write gpa of the student: ");
+    fgets(temp, sizeof(temp), stdin);
+    fprintf(studentList, "%s", temp);
+
+    printf("\nStudent added succesfully!");
+
+    fclose(studentList);
+}
 
 int GetIntInput() {
     int input;
