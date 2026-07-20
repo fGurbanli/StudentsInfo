@@ -3,16 +3,16 @@
 #include <string.h>
 
 typedef struct Students {
-    char name[100];
-    char year[100];
-    char gpa[10];
+    char* name;
+    char* year;
+    char* gpa;
 }Students;
 
 int GetIntInput();
 float GetFloatInput();
 
 void PrintMenu();
-void AddStudent(int* order, Students* students);
+void AddStudent(int* order, Students** students, int* maxSize);
 void DeleteStudent(int* order, Students* students);
 void EditStudent(int* order,Students* students);
 void ListStudent(int* order, Students* students);
@@ -20,19 +20,25 @@ void SearchStudent(Students* students);
 
 
 int main(void) {
-
+    int maxSize = 10;
     char temp[70];
     int order = 0;
+
+    Students* students = calloc(maxSize, sizeof(Students));
+    if (students == NULL) {
+        printf("\nMemory allocation failed!\n");
+        return 1;
+    }
 
     FILE* studentList = fopen("studentList.txt", "r");
 
     if (studentList == NULL) {
         printf("\nFile couldn't be openned!");
+        free(students);
         return 1;
     }
 
     rewind(studentList);
-
 
     while (fgets(temp, sizeof(temp), studentList) != NULL)
     {
@@ -40,14 +46,14 @@ int main(void) {
     }
     rewind(studentList);
 
-    Students students[order];
-
     for (int i = 0; i < order; i++)
     {
+        students[i].name = malloc(100);
+        students[i].year = malloc(100);
+        students[i].gpa = malloc(10);
+
         fscanf(studentList, " %[^;];%[^;]; %[^;];" ,students[i].name,students[i].year,students[i].gpa);
     }
-
-
 
     while (1)
     {
@@ -62,7 +68,7 @@ int main(void) {
                 break;
             case 2:
                 printf("\nOpenning...\n");
-                AddStudent(&order, students);
+                AddStudent(&order, &students, &maxSize);
                 break;
             case 3:
                 printf("\nOpenning student search system...\n");
@@ -78,6 +84,14 @@ int main(void) {
                 break;
             case 0:
                 fclose(studentList);
+                for(int i = 0; i < order; i++)
+                {
+                    free(students[i].name);
+                    free(students[i].year);
+                    free(students[i].gpa);
+                }
+
+                free(students);
                 exit(0);
             default:
                 printf("\nEnter a valid value!\n");
@@ -97,12 +111,28 @@ void PrintMenu()
     printf("\n0- Exit\n");
 }
 
-void AddStudent(int* order, Students* students)
+void AddStudent(int* order, Students** students, int* maxSize)
 {
     FILE* studentList = fopen("studentList.txt", "a+");
     if (studentList == NULL) {
         printf("\nFile couldn't be openned!");
         return ;
+    }
+
+    if (*order >= *maxSize) {
+        (*maxSize) *= 2;
+        Students* temp = realloc(*students, (*maxSize) * sizeof(Students));
+        if (temp == NULL) {
+            printf("\nMemory allocation failed!\n");
+            return;
+        }
+        *students = temp;
+        for (int i = *order; *order < *maxSize; i++)
+        {
+            (*students)[i].name = NULL;
+            (*students)[i].year = NULL;
+            (*students)[i].gpa = NULL;
+        }
     }
 
     char temp1[500];
@@ -125,14 +155,16 @@ void AddStudent(int* order, Students* students)
 
     printf("\nStudent added succesfully!\n");
 
+    (*students)[*order].name = malloc(sizeof(temp1)+1);
+    (*students)[*order].year = malloc(sizeof(temp2)+1);
+    (*students)[*order].gpa = malloc(sizeof(temp3)+1);
+
+    strcpy((*students)[*order].name, temp1);
+    strcpy((*students)[*order].year, temp2);
+    strcpy((*students)[*order].gpa, temp3);
+
     (*order)++;
 
-    rewind(studentList);
-
-    for (int i = 0; i < *order; i++)
-    {
-        fscanf(studentList, " %[^;];%[^;]; %[^;];" ,students[i].name,students[i].year,students[i].gpa);
-    }
     fclose(studentList);
 }
 
