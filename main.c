@@ -159,6 +159,19 @@ void AddStudent(int* order, Students** students, int* maxSize)
     (*students)[*order].year = malloc(sizeof(temp2)+1);
     (*students)[*order].gpa = malloc(sizeof(temp3)+1);
 
+    if ((*students)[*order].name == NULL) {
+        printf("\nMemory allocation failed!");
+        return ;
+    }
+    if ((*students)[*order].year == NULL) {
+        printf("\nMemory allocation failed!");
+        return ;
+    }
+    if ((*students)[*order].gpa == NULL) {
+        printf("\nMemory allocation failed!");
+        return ;
+    }
+
     strcpy((*students)[*order].name, temp1);
     strcpy((*students)[*order].year, temp2);
     strcpy((*students)[*order].gpa, temp3);
