@@ -2,20 +2,28 @@
 #include <stdlib.h>
 #include <string.h>
 
+typedef struct Students {
+    char name[50];
+    char year[50];
+    char gpa[10];
+}Students;
+
 int GetIntInput();
 float GetFloatInput();
 
 void PrintMenu();
-void AddStudent(int* order);
-void DeleteStudent(int* order);
+void AddStudent(int* order, Students* students);
+void DeleteStudent(int* order, Students* students);
 void EditStudent(int* order);
-void ListStudent();
+void ListStudent(int* order, Students* students);
 void SearchStudent();
 
 
 int main(void) {
+
     char temp[70];
-    int order = 1;
+    int order = 0;
+
     FILE* studentList = fopen("studentList.txt", "r");
 
     if (studentList == NULL) {
@@ -25,9 +33,20 @@ int main(void) {
 
     rewind(studentList);
 
+
     while (fgets(temp, sizeof(temp), studentList) != NULL)
     {
         order++;
+    }
+    rewind(studentList);
+
+    Students students[order];
+
+    for (int i = 0; i < order; i++)
+    {
+        fscanf(studentList, "%[^;]" ,students[i].name);
+        fscanf(studentList, "%s" ,students[i].year);
+        fscanf(studentList, "%s" ,students[i].gpa);
     }
 
     while (1)
@@ -39,18 +58,18 @@ int main(void) {
         {
             case 1:
                 printf("\nOpenning the student list...\n");
-                ListStudent();
+                ListStudent(&order, students);
                 break;
             case 2:
                 printf("\nOpenning...\n");
-                AddStudent(&order);
+                AddStudent(&order, students);
                 break;
             case 3:
                 printf("\nOpenning student search system...\n");
                 break;
             case 4:
                 printf("\nOpenning deleting system...\n");
-                DeleteStudent(&order);
+                DeleteStudent(&order, students);
                 break;
             case 0:
                 fclose(studentList);
@@ -72,7 +91,7 @@ void PrintMenu()
     printf("\n0- Exit\n");
 }
 
-void AddStudent(int* order)
+void AddStudent(int* order, Students* students)
 {
     FILE* studentList = fopen("studentList.txt", "a+");
     if (studentList == NULL) {
@@ -96,36 +115,28 @@ void AddStudent(int* order)
     printf("\nPlease write gpa of the student: ");
     fgets(temp3, sizeof(temp3), stdin);
     temp3[strcspn(temp3, "\n")] = '\0';
-    fprintf(studentList, "%s;%s;%s\n", temp1,temp2,temp3);
+    fprintf(studentList, "%s;%s %s\n", temp1,temp2,temp3);
 
     printf("\nStudent added succesfully!\n");
 
     (*order)++;
 
-    fclose(studentList);
-}
-
-void ListStudent()
-{
-    FILE* studentList = fopen("studentList.txt", "r");
-
-    if (studentList == NULL)
-    {
-        printf("File couldn't be opened!\n");
-        return;
-    }
-
-    char line[50];
-
-    while (fgets(line, sizeof(line), studentList) != NULL)
-    {
-        printf("%s", line);
-    }
+    fscanf(studentList, "%[^;]" ,students[*order - 1].name);
+    fscanf(studentList, "%s" ,students[*order - 1].year);
+    fscanf(studentList, "%s" ,students[*order - 1].gpa);
 
     fclose(studentList);
 }
 
-void DeleteStudent(int* order)
+void ListStudent(int* order, Students* students) {
+    for (int i = 0; i < *order; i++)
+    {
+        printf("\n=====Student %d=====", i + 1);
+        printf("\nName: %s Year: %s GPA: %s\n", students[i].name, students[i].year, students[i].gpa);
+    }
+}
+
+void DeleteStudent(int* order, Students* students)
 {
     FILE* temp = fopen("temp.txt", "w");
     FILE* studentList = fopen("studentList.txt", "r");
@@ -144,7 +155,7 @@ void DeleteStudent(int* order)
         fclose(studentList);
         return;
     }
-    ListStudent();
+    ListStudent(order, students);
     printf("\nEnter the index of the student you want to delete: ");
 
     int input = GetIntInput();
@@ -160,6 +171,8 @@ void DeleteStudent(int* order)
         }
         newLine++;
     }
+
+
 
     fclose(temp);
     fclose(studentList);
