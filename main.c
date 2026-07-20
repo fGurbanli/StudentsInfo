@@ -24,17 +24,10 @@ int main(void) {
     char temp[70];
     int order = 0;
 
-    Students* students = calloc(maxSize, sizeof(Students));
-    if (students == NULL) {
-        printf("\nMemory allocation failed!\n");
-        return 1;
-    }
-
     FILE* studentList = fopen("studentList.txt", "r");
 
     if (studentList == NULL) {
         printf("\nFile couldn't be openned!");
-        free(students);
         return 1;
     }
 
@@ -44,7 +37,20 @@ int main(void) {
     {
         order++;
     }
+
+    if (order >= maxSize)
+    {
+        maxSize *= 2;
+    }
+
     rewind(studentList);
+
+    Students* students = calloc(maxSize, sizeof(Students));
+
+    if (students == NULL) {
+        printf("\nMemory allocation failed!\n");
+        return 1;
+    }
 
     for (int i = 0; i < order; i++)
     {
@@ -263,6 +269,14 @@ void EditStudent(int* order, Students* students)
     printf("\nPlease write gpa of the student: ");
     fgets(temp3, sizeof(temp3), stdin);
     temp3[strcspn(temp3, "\n")] = '\0';
+
+    free(students[input - 1].name);
+    free(students[input - 1].year);
+    free(students[input - 1].gpa);
+
+    students[input - 1].name = malloc(strlen(temp1)+1);
+    students[input - 1].year = malloc(strlen(temp2)+1);
+    students[input - 1].gpa = malloc(strlen(temp3)+1);
 
     strcpy(students[input - 1].name, temp1);
     strcpy(students[input - 1].year, temp2);
