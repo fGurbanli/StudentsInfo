@@ -15,7 +15,7 @@ float GetFloatInput();
 void PrintMenu();
 void AddStudent(int* order, Students* students);
 void DeleteStudent(int* order, Students* students);
-void EditStudent(int* order);
+void EditStudent(int* order,Students* students);
 void ListStudent(int* order, Students* students);
 void SearchStudent();
 
@@ -72,6 +72,10 @@ int main(void) {
                 printf("\nOpenning deleting system...\n");
                 DeleteStudent(&order, students);
                 break;
+            case 5:
+                printf("\nOpenning student editting system...");
+                EditStudent(&order, students);
+                break;
             case 0:
                 fclose(studentList);
                 exit(0);
@@ -89,6 +93,7 @@ void PrintMenu()
     printf("2- Add a Student\n");
     printf("3- Search a Student\n");
     printf("4- Delete a Student\n");
+    printf("5- Edit a Student\n");
     printf("\n0- Exit\n");
 }
 
@@ -140,7 +145,6 @@ void ListStudent(int* order, Students* students) {
 }
 
 void DeleteStudent(int* order, Students* students) {
-
     ListStudent(order, students);
     printf("\nEnter an index of the student you want to delete: ");
 
@@ -155,8 +159,6 @@ void DeleteStudent(int* order, Students* students) {
         printf("\nEnter a valid value!");
     }
 
-
-
     for (int i = input; i < *order; i++)
     {
         strcpy(students[i - 1].name, students[i].name);
@@ -165,6 +167,58 @@ void DeleteStudent(int* order, Students* students) {
     }
 
     (*order)--;
+
+    FILE* studentList = fopen("studentList.txt", "w");
+
+    if (studentList == NULL) {
+        printf("\nFile couldn't be openned!");
+        return ;
+    }
+
+    for (int i = 0; i < *order; i++)
+    {
+        fprintf(studentList,"%s;%s;%s;\n", students[i].name,students[i].year,students[i].gpa);
+    }
+
+    fclose(studentList);
+}
+
+void EditStudent(int* order, Students* students)
+{
+    ListStudent(order, students);
+    printf("\nEnter an index of the student you want to edit: ");
+
+
+    int input;
+
+    while (1) {
+        input = GetIntInput();
+        if (input > 0 && input <= *order) {
+            break;
+        }
+        printf("\nEnter a valid value!");
+    }
+
+    char temp1[500];
+    char temp2[500];
+    char temp3[500];
+
+    while (getchar() != '\n');
+    printf("\nPlease write a name of the student: ");
+    fgets(temp1, sizeof(temp1), stdin);
+    temp1[strcspn(temp1, "\n")] = '\0';
+
+    printf("\nPlease write a year of the student: ");
+    fgets(temp2, sizeof(temp2), stdin);
+    temp2[strcspn(temp2, "\n")] = '\0';
+
+    printf("\nPlease write gpa of the student: ");
+    fgets(temp3, sizeof(temp3), stdin);
+    temp3[strcspn(temp3, "\n")] = '\0';
+
+    strcpy(students[input - 1].name, temp1);
+    strcpy(students[input - 1].year, temp2);
+    strcpy(students[input - 1].gpa, temp3);
 
     FILE* studentList = fopen("studentList.txt", "w");
 
