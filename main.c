@@ -197,16 +197,19 @@ void ListStudent(int* order, Students* students) {
 
 void DeleteStudent(int* order, Students* students) {
     ListStudent(order, students);
-    printf("\nEnter an index of the student you want to delete: ");
+    printf("\nEnter an index of the student you want to delete: (Insert 0 to exit) ");
 
     int input;
 
     while (1) {
         input = GetIntInput();
-        if (input > 0 && input <= *order) {
+        if (input >= 0 && input <= *order) {
             break;
         }
         printf("\nEnter a valid value!");
+    }
+    if (input == 0) {
+        return;
     }
 
     for (int i = input; i < *order; i++)
@@ -240,17 +243,21 @@ void DeleteStudent(int* order, Students* students) {
 void EditStudent(int* order, Students* students)
 {
     ListStudent(order, students);
-    printf("\nEnter an index of the student you want to edit: ");
+    printf("\nEnter an index of the student you want to edit: (Insert 0 to exit) ");
 
 
     int input;
 
     while (1) {
         input = GetIntInput();
-        if (input > 0 && input <= *order) {
+        if (input >= 0 && input <= *order) {
             break;
         }
         printf("\nEnter a valid value!");
+    }
+
+    if (input == 0) {
+        return;
     }
 
     char temp1[500];
