@@ -3,8 +3,8 @@
 #include <string.h>
 
 typedef struct Students {
-    char name[50];
-    char year[50];
+    char name[100];
+    char year[100];
     char gpa[10];
 }Students;
 
@@ -44,10 +44,10 @@ int main(void) {
 
     for (int i = 0; i < order; i++)
     {
-        fscanf(studentList, "%[^;]" ,students[i].name);
-        fscanf(studentList, "%s" ,students[i].year);
-        fscanf(studentList, "%s" ,students[i].gpa);
+        fscanf(studentList, " %[^;];%[^;]; %[^;];" ,students[i].name,students[i].year,students[i].gpa);
     }
+
+
 
     while (1)
     {
