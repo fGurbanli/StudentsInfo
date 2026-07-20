@@ -1,3 +1,4 @@
+#include <iso646.h>
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
@@ -138,58 +139,46 @@ void ListStudent(int* order, Students* students) {
     }
 }
 
-void DeleteStudent(int* order, Students* students)
-{
-    FILE* temp = fopen("temp.txt", "w");
-    FILE* studentList = fopen("studentList.txt", "r");
+void DeleteStudent(int* order, Students* students) {
 
-    char line[200];
-    int newLine = 1;
-
-    if (studentList == NULL) {
-        printf("\nFile couldn't be openned!");
-        return;
-    }
-
-    if (temp == NULL) {
-        printf("\nFile couldn't be openned!");
-        fclose(temp);
-        fclose(studentList);
-        return;
-    }
     ListStudent(order, students);
-    printf("\nEnter the index of the student you want to delete: ");
+    printf("\nEnter an index of the student you want to delete: ");
 
-    int input = GetIntInput();
 
-    if (*order - 1 < input) {
-        printf("\nEnter a valid value!\n");
-        return;
-    }
+    int input;
 
-    while (fgets(line, sizeof(line), studentList) != NULL) {
-        if (newLine != input) {
-            fputs(line, temp);
+    while (1) {
+        input = GetIntInput();
+        if (input > 0 && input <= *order) {
+            break;
         }
-        newLine++;
+        printf("\nEnter a valid value!");
     }
 
 
 
-    fclose(temp);
-    fclose(studentList);
-
-    if (remove("studentList.txt") != 0)
+    for (int i = input; i < *order; i++)
     {
-        printf("Delete failed!\n");
-    }
-
-    if (rename("temp.txt", "studentList.txt") != 0)
-    {
-        printf("Rename failed!\n");
+        strcpy(students[i - 1].name, students[i].name);
+        strcpy(students[i - 1].year, students[i].year);
+        strcpy(students[i - 1].gpa, students[i].gpa);
     }
 
     (*order)--;
+
+    FILE* studentList = fopen("studentList.txt", "w");
+
+    if (studentList == NULL) {
+        printf("\nFile couldn't be openned!");
+        return ;
+    }
+
+    for (int i = 0; i < *order; i++)
+    {
+        fprintf(studentList,"%s;%s;%s;\n", students[i].name,students[i].year,students[i].gpa);
+    }
+
+    fclose(studentList);
 }
 
 int GetIntInput() {
