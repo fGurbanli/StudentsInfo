@@ -17,7 +17,7 @@ void AddStudent(int* order, Students* students);
 void DeleteStudent(int* order, Students* students);
 void EditStudent(int* order,Students* students);
 void ListStudent(int* order, Students* students);
-void SearchStudent();
+void SearchStudent(Students* students);
 
 
 int main(void) {
@@ -67,6 +67,7 @@ int main(void) {
                 break;
             case 3:
                 printf("\nOpenning student search system...\n");
+                SearchStudent(students);
                 break;
             case 4:
                 printf("\nOpenning deleting system...\n");
@@ -231,6 +232,38 @@ void EditStudent(int* order, Students* students)
     {
         fprintf(studentList,"%s;%s;%s;\n", students[i].name,students[i].year,students[i].gpa);
     }
+
+    fclose(studentList);
+}
+
+void SearchStudent(Students* students) {
+    int orderLine = 0;
+    FILE* studentList = fopen("studentList.txt","r");
+    if (studentList == NULL) {
+        printf("\nFile couldn't be openned!");
+        return ;
+    }
+
+    char line[100];
+    char search[50];
+
+    while (getchar() != '\n');
+    printf("\nEnter a name of student you want search: ");
+    fgets(search, sizeof(search), stdin);
+    search[strcspn(search, "\n")] = '\0';
+
+    while (fgets(line, sizeof(line), studentList) != NULL)
+    {
+        if (strstr(line, search) != NULL)
+        {
+            printf("\n====Student Found====\n");
+            printf("Name: %s Year: %s GPA: %s", students[orderLine].name, students[orderLine].year, students[orderLine].gpa);
+            return;
+        }
+        orderLine++;
+    }
+
+    printf("\nStudent couldn't be found!");
 
     fclose(studentList);
 }
