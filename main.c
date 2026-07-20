@@ -127,7 +127,7 @@ void AddStudent(int* order, Students** students, int* maxSize)
             return;
         }
         *students = temp;
-        for (int i = *order; *order < *maxSize; i++)
+        for (int i = *order; i < *maxSize; i++)
         {
             (*students)[i].name = NULL;
             (*students)[i].year = NULL;
@@ -155,9 +155,9 @@ void AddStudent(int* order, Students** students, int* maxSize)
 
     printf("\nStudent added succesfully!\n");
 
-    (*students)[*order].name = malloc(sizeof(temp1)+1);
-    (*students)[*order].year = malloc(sizeof(temp2)+1);
-    (*students)[*order].gpa = malloc(sizeof(temp3)+1);
+    (*students)[*order].name = malloc(strlen(temp1)+1);
+    (*students)[*order].year = malloc(strlen(temp2)+1);
+    (*students)[*order].gpa = malloc(strlen(temp3)+1);
 
     if ((*students)[*order].name == NULL) {
         printf("\nMemory allocation failed!");
@@ -193,7 +193,6 @@ void DeleteStudent(int* order, Students* students) {
     ListStudent(order, students);
     printf("\nEnter an index of the student you want to delete: ");
 
-
     int input;
 
     while (1) {
@@ -210,6 +209,10 @@ void DeleteStudent(int* order, Students* students) {
         strcpy(students[i - 1].year, students[i].year);
         strcpy(students[i - 1].gpa, students[i].gpa);
     }
+
+    free(students[input - 1].name);
+    free(students[input - 1].year);
+    free(students[input - 1].gpa);
 
     (*order)--;
 
