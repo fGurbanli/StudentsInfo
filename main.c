@@ -115,16 +115,18 @@ void AddStudent(int* order, Students* students)
     printf("\nPlease write gpa of the student: ");
     fgets(temp3, sizeof(temp3), stdin);
     temp3[strcspn(temp3, "\n")] = '\0';
-    fprintf(studentList, "%s;%s %s\n", temp1,temp2,temp3);
+    fprintf(studentList, "%s;%s;%s;\n", temp1,temp2,temp3);
 
     printf("\nStudent added succesfully!\n");
 
     (*order)++;
 
-    fscanf(studentList, "%[^;]" ,students[*order - 1].name);
-    fscanf(studentList, "%s" ,students[*order - 1].year);
-    fscanf(studentList, "%s" ,students[*order - 1].gpa);
+    rewind(studentList);
 
+    for (int i = 0; i < *order; i++)
+    {
+        fscanf(studentList, " %[^;];%[^;]; %[^;];" ,students[i].name,students[i].year,students[i].gpa);
+    }
     fclose(studentList);
 }
 
