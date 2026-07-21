@@ -21,7 +21,7 @@ int main(void) {
         order++;
     }
 
-    if (order >= maxSize)
+    while (order >= maxSize)
     {
         maxSize *= 2;
     }
