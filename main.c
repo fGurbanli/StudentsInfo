@@ -9,10 +9,10 @@ int main(void) {
     char temp[70];
     int order = 0;
 
-    FILE* studentList = fopen("studentList.txt", "r"); //Openning file for find how many students there are
+    FILE* studentList = fopen("studentList.txt", "r"); //Opening file for find how many students there are
 
     if (studentList == NULL) {
-        printf("\nFile couldn't be openned!");
+        printf("\nFile couldn't be opened!");
         return 1;
     }
 
@@ -54,23 +54,23 @@ int main(void) {
         switch (option)
         {
             case 1:
-                printf("\nOpenning the student list...\n");
+                printf("\nOpening the student list...\n");
                 ListStudent(&order, students);
                 break;
             case 2:
-                printf("\nOpenning...\n");
+                printf("\nOpening...\n");
                 AddStudent(&order, &students, &maxSize);
                 break;
             case 3:
-                printf("\nOpenning student search system...\n");
+                printf("\nOpening student search system...\n");
                 SearchStudent(students);
                 break;
             case 4:
-                printf("\nOpenning deleting system...\n");
+                printf("\nOpening deleting system...\n");
                 DeleteStudent(&order, students);
                 break;
             case 5:
-                printf("\nOpenning student editting system...");
+                printf("\nOpening student editing system...");
                 EditStudent(&order, students);
                 break;
             case 0:

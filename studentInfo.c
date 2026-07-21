@@ -21,7 +21,7 @@ void AddStudent(int* order, Students** students, int* maxSize)
 {
     FILE* studentList = fopen("studentList.txt", "a+");
     if (studentList == NULL) {
-        printf("\nFile couldn't be openned!");
+        printf("\nFile couldn't be opened!");
         return ;
     }
 
@@ -44,7 +44,7 @@ void AddStudent(int* order, Students** students, int* maxSize)
     }
 
     char temp1[500];
-    char temp2[500]; //Temporary variables for getting informations of students
+    char temp2[500]; //Temporary variables for getting information of students
     char temp3[500];
 
     while (getchar() != '\n');
@@ -61,7 +61,7 @@ void AddStudent(int* order, Students** students, int* maxSize)
     temp3[strcspn(temp3, "\n")] = '\0';
     fprintf(studentList, "%s;%s;%s;\n", temp1,temp2,temp3);
 
-    printf("\nStudent added succesfully!\n");
+    printf("\nStudent added successfully!\n");
 
     (*students)[*order].name = malloc(strlen(temp1)+1);
     (*students)[*order].year = malloc(strlen(temp2)+1); //Allocating memory
@@ -127,7 +127,7 @@ void DeleteStudent(int* order, Students* students) {
 
     (*order)--;
 
-    FILE* studentList = fopen("studentList.txt", "w"); //Openning file for rewriting without deleted student
+    FILE* studentList = fopen("studentList.txt", "w"); //Opening file for rewriting without deleted student
 
     if (studentList == NULL) {
         printf("\nFile couldn't be openned!");
@@ -194,7 +194,7 @@ void EditStudent(int* order, Students* students) //This function will delete sel
     FILE* studentList = fopen("studentList.txt", "w");
 
     if (studentList == NULL) {
-        printf("\nFile couldn't be openned!");
+        printf("\nFile couldn't be opened!");
         return ;
     }
 
@@ -210,7 +210,7 @@ void SearchStudent(Students* students) {
     int orderLine = 0;
     FILE* studentList = fopen("studentList.txt","r");
     if (studentList == NULL) {
-        printf("\nFile couldn't be openned!");
+        printf("\nFile couldn't be opened!");
         return ;
     }
 
