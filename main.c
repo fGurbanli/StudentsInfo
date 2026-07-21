@@ -3,11 +3,13 @@
 #include "studentInfo.h"
 
 int main(void) {
+
+    //initial values
     int maxSize = 10;
     char temp[70];
     int order = 0;
 
-    FILE* studentList = fopen("studentList.txt", "r");
+    FILE* studentList = fopen("studentList.txt", "r"); //Openning file for find how many students there are
 
     if (studentList == NULL) {
         printf("\nFile couldn't be openned!");
@@ -18,12 +20,12 @@ int main(void) {
 
     while (fgets(temp, sizeof(temp), studentList) != NULL)
     {
-        order++;
+        order++; //Getting student count
     }
 
     while (order >= maxSize)
     {
-        maxSize *= 2;
+        maxSize *= 2; //Adjusting maxSize before memory allocation
     }
 
     rewind(studentList);
@@ -38,7 +40,7 @@ int main(void) {
     for (int i = 0; i < order; i++)
     {
         students[i].name = malloc(100);
-        students[i].year = malloc(100);
+        students[i].year = malloc(100); //Allocating memory for each type of information in structure
         students[i].gpa = malloc(10);
 
         fscanf(studentList, " %[^;];%[^;]; %[^;];" ,students[i].name,students[i].year,students[i].gpa);

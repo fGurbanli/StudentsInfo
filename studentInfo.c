@@ -25,9 +25,11 @@ void AddStudent(int* order, Students** students, int* maxSize)
         return ;
     }
 
+    //Checks if there is a empty space for new student
+
     if (*order >= *maxSize) {
-        (*maxSize) *= 2;
-        Students* temp = realloc(*students, (*maxSize) * sizeof(Students));
+        (*maxSize) *= 2; //If there is no empty space maxSize will be doubled
+        Students* temp = realloc(*students, (*maxSize) * sizeof(Students)); //Allocating memory again with double size
         if (temp == NULL) {
             printf("\nMemory allocation failed!\n");
             return;
@@ -36,13 +38,13 @@ void AddStudent(int* order, Students** students, int* maxSize)
         for (int i = *order; i < *maxSize; i++)
         {
             (*students)[i].name = NULL;
-            (*students)[i].year = NULL;
+            (*students)[i].year = NULL; //Giving NULL for values of unoccupied spaces
             (*students)[i].gpa = NULL;
         }
     }
 
     char temp1[500];
-    char temp2[500];
+    char temp2[500]; //Temporary variables for getting informations of students
     char temp3[500];
 
     while (getchar() != '\n');
@@ -62,7 +64,7 @@ void AddStudent(int* order, Students** students, int* maxSize)
     printf("\nStudent added succesfully!\n");
 
     (*students)[*order].name = malloc(strlen(temp1)+1);
-    (*students)[*order].year = malloc(strlen(temp2)+1);
+    (*students)[*order].year = malloc(strlen(temp2)+1); //Allocating memory
     (*students)[*order].gpa = malloc(strlen(temp3)+1);
 
     if ((*students)[*order].name == NULL) {
@@ -79,7 +81,7 @@ void AddStudent(int* order, Students** students, int* maxSize)
     }
 
     strcpy((*students)[*order].name, temp1);
-    strcpy((*students)[*order].year, temp2);
+    strcpy((*students)[*order].year, temp2); //Writing information of students
     strcpy((*students)[*order].gpa, temp3);
 
     (*order)++;
@@ -109,23 +111,23 @@ void DeleteStudent(int* order, Students* students) {
         printf("\nEnter a valid value!");
     }
     if (input == 0) {
-        return;
+        return; //0 to exit
     }
 
     for (int i = input; i < *order; i++)
     {
         strcpy(students[i - 1].name, students[i].name);
-        strcpy(students[i - 1].year, students[i].year);
+        strcpy(students[i - 1].year, students[i].year); //Moving array after inserted index 1 down
         strcpy(students[i - 1].gpa, students[i].gpa);
     }
 
     free(students[input - 1].name);
-    free(students[input - 1].year);
+    free(students[input - 1].year); //Setting deleted students' datas free
     free(students[input - 1].gpa);
 
     (*order)--;
 
-    FILE* studentList = fopen("studentList.txt", "w");
+    FILE* studentList = fopen("studentList.txt", "w"); //Openning file for rewriting without deleted student
 
     if (studentList == NULL) {
         printf("\nFile couldn't be openned!");
@@ -134,13 +136,13 @@ void DeleteStudent(int* order, Students* students) {
 
     for (int i = 0; i < *order; i++)
     {
-        fprintf(studentList,"%s;%s;%s;\n", students[i].name,students[i].year,students[i].gpa);
+        fprintf(studentList,"%s;%s;%s;\n", students[i].name,students[i].year,students[i].gpa); //Rewriting all students datas
     }
 
     fclose(studentList);
 }
 
-void EditStudent(int* order, Students* students)
+void EditStudent(int* order, Students* students) //This function will delete selected student and rewrite again
 {
     ListStudent(order, students);
     printf("\nEnter an index of the student you want to edit: (Insert 0 to exit) ");
@@ -157,7 +159,7 @@ void EditStudent(int* order, Students* students)
     }
 
     if (input == 0) {
-        return;
+        return; // 0 to exit
     }
 
     char temp1[500];
@@ -182,11 +184,11 @@ void EditStudent(int* order, Students* students)
     free(students[input - 1].gpa);
 
     students[input - 1].name = malloc(strlen(temp1)+1);
-    students[input - 1].year = malloc(strlen(temp2)+1);
+    students[input - 1].year = malloc(strlen(temp2)+1); //Deleting selected student
     students[input - 1].gpa = malloc(strlen(temp3)+1);
 
     strcpy(students[input - 1].name, temp1);
-    strcpy(students[input - 1].year, temp2);
+    strcpy(students[input - 1].year, temp2); //Rewriting
     strcpy(students[input - 1].gpa, temp3);
 
     FILE* studentList = fopen("studentList.txt", "w");
@@ -243,7 +245,7 @@ int GetIntInput() {
     {
         if (scanf("%d", &input) == 1 && input >= 0) break;
         printf("\nEnter a valid value!");
-        while (getchar() != '\n');
+        while (getchar() != '\n'); //cleaning buffer
     }
 
     return input;
@@ -255,7 +257,7 @@ float GetFloatInput() {
     {
         if (scanf("%f", &input) == 1) break;
         printf("\nEnter a valid value!");
-        while (getchar() != '\n');
+        while (getchar() != '\n'); //cleaning buffer
     }
 
     return input;
