@@ -40,7 +40,7 @@ int main(void) {
     for (int i = 0; i < order; i++)
     {
         students[i].name = malloc(100);
-        students[i].year = malloc(100); //Allocating memory for each type of information in structure
+        students[i].year = malloc(100); //Allocating memory for each type of information in struct
         students[i].gpa = malloc(10);
 
         fscanf(studentList, " %[^;];%[^;]; %[^;];" ,students[i].name,students[i].year,students[i].gpa);
