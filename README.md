@@ -1,6 +1,6 @@
 # Student Management System (C)
 
-A console-based Student Management System written in **C**, featuring dynamic memory allocation, modular source organization, and file persistence.
+A modular console-based Student Management System written in **C**. This project was built to practice core C programming concepts including dynamic memory management, modular programming, pointers, structures, and file handling.
 
 ## Features
 
@@ -9,8 +9,9 @@ A console-based Student Management System written in **C**, featuring dynamic me
 * Search students
 * Edit student information
 * Delete students
-* Automatically save and load data from a text file
-* Dynamic memory management using `malloc()`, `calloc()`, `realloc()`, and `free()`
+* Automatic loading of student records from a file
+* Persistent storage using text files
+* Dynamic memory allocation with automatic resizing
 
 ## Technologies
 
@@ -18,76 +19,111 @@ A console-based Student Management System written in **C**, featuring dynamic me
 * Standard C Library
 * Dynamic Memory Allocation
 * File I/O
+* Modular Programming
 * Structures
 * Pointers
-* Modular Programming (`.c` / `.h`)
 
 ## Project Structure
 
 ```text
-StudentManagement
+StudentManagement/
 │
 ├── main.c              # Program entry point
 ├── studentInfo.c       # Student management functions
-├── studentInfo.h       # Structure definitions and function declarations
+├── studentInfo.h       # Student structure and function declarations
+├── input.c             # Input validation functions
+├── input.h             # Input function declarations
 ├── studentList.txt     # Student database
 └── README.md
 ```
 
+## Modules
+
+### `main.c`
+
+Controls the program flow and menu system.
+
+### `studentInfo.c`
+
+Implements all student management operations:
+
+* Add Student
+* Delete Student
+* Edit Student
+* Search Student
+* List Students
+
+### `studentInfo.h`
+
+Contains:
+
+* `Students` structure
+* Function prototypes for the student management module
+
+### `input.c`
+
+Handles validated user input:
+
+* `GetIntInput()`
+* `GetFloatInput()`
+
+### `input.h`
+
+Contains the function declarations for the input module.
+
 ## Concepts Practiced
 
-This project was built as part of learning the C programming language and focuses on the following concepts:
+This project helped reinforce the following C programming concepts:
 
 * Functions
 * Structures (`struct`)
 * Header files (`.h`)
 * Source files (`.c`)
 * Function prototypes
+* Modular programming
 * Pointers
-* Pointer arithmetic
-* Dynamic memory allocation
+* Dynamic memory allocation (`malloc`, `calloc`, `realloc`, `free`)
 * Arrays of structures
 * File handling (`fopen`, `fclose`, `fscanf`, `fprintf`)
-* Modular programming
 * Memory management
+* Input validation
+
+## Memory Management
+
+Each student stores dynamically allocated memory for:
+
+* Name
+* Academic Year
+* GPA
+
+All allocated memory is released before the program terminates to prevent memory leaks.
 
 ## Data Storage
 
-Student records are stored in a text file (`studentList.txt`) and are automatically loaded when the program starts.
+Student records are stored in `studentList.txt` and are automatically loaded when the application starts.
 
-Example format:
+Example:
 
 ```text
 John Doe;2;3.75;
 Alice Smith;1;4.00;
 ```
 
-## Memory Management
-
-Every student record dynamically allocates memory for:
-
-* Name
-* Academic Year
-* GPA
-
-All allocated memory is released before the program exits to prevent memory leaks.
-
 ## Future Improvements
 
-* Separate File I/O into its own module
-* Input validation improvements
+* Create a dedicated `file.c` / `file.h` module for all File I/O operations
 * Sort students by GPA or name
-* Export to CSV
+* Export data to CSV
 * Binary file support
-* Better error handling
-* Unit tests
+* Improve error handling
+* Unit testing
 
-## How to Compile
+## Build
 
 Using GCC:
 
 ```bash
-gcc main.c studentInfo.c -o StudentManagement
+gcc main.c studentInfo.c input.c -o StudentManagement
 ```
 
 Run:
@@ -95,10 +131,6 @@ Run:
 ```bash
 ./StudentManagement
 ```
-
-## Learning Purpose
-
-This project was created for educational purposes while learning C programming. The primary goal was to gain practical experience with memory management, pointers, file handling, and organizing larger C projects into multiple source and header files.
 
 ## Author
 
