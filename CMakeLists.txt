@@ -3,4 +3,6 @@ project(StudentsInfo C)
 
 set(CMAKE_C_STANDARD 17)
 
-add_executable(StudentsInfo main.c)
+add_executable(StudentsInfo main.c
+        studentInfo.h
+        studentInfo.c)
