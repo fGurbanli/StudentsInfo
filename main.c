@@ -5,7 +5,7 @@
 
 int main(void) {
 
-    //initial values
+    //Initial values
     int maxSize = 10;
     char temp[70];
     int order = 0;

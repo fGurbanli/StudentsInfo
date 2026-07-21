@@ -1,5 +1,5 @@
 //
-// Created by Furgan Gurbanlli on 21.07.2026.
+// Created by Furgan Gurbanlli on 21.07.2026
 //
 
 #ifndef STUDENTSINFO_INPUT_H
