@@ -9,7 +9,7 @@ int main(void) {
     char temp[70];
     int order = 0;
 
-    FILE* studentList = fopen("studentList.txt", "r"); //Opening file for find how many students there are
+    FILE* studentList = fopen("studentList.txt", "r"); //Opening file to find how many students there are
 
     if (studentList == NULL) {
         printf("\nFile couldn't be opened!");
