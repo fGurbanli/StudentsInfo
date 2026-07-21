@@ -5,4 +5,6 @@ set(CMAKE_C_STANDARD 17)
 
 add_executable(StudentsInfo main.c
         studentInfo.h
-        studentInfo.c)
+        studentInfo.c
+        input.h
+        input.c)

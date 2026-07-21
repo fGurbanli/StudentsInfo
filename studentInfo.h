@@ -5,8 +5,6 @@
 #ifndef STUDENTSINFO_STUDENTINFO_H
 #define STUDENTSINFO_STUDENTINFO_H
 
-int GetIntInput();
-float GetFloatInput();
 typedef struct Students {
     char* name;
     char* year;

@@ -5,6 +5,7 @@
 #include <stdio.h>
 #include <string.h>
 #include "studentInfo.h"
+#include "input.h"
 
 void PrintMenu()
 {
@@ -238,27 +239,4 @@ void SearchStudent(Students* students) {
     fclose(studentList);
 }
 
-int GetIntInput() {
-    int input;
 
-    while (1)
-    {
-        if (scanf("%d", &input) == 1 && input >= 0) break;
-        printf("\nEnter a valid value!");
-        while (getchar() != '\n'); //cleaning buffer
-    }
-
-    return input;
-}
-float GetFloatInput() {
-    float input;
-
-    while (1)
-    {
-        if (scanf("%f", &input) == 1) break;
-        printf("\nEnter a valid value!");
-        while (getchar() != '\n'); //cleaning buffer
-    }
-
-    return input;
-}
