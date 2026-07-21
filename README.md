@@ -1,170 +1,105 @@
-# Student Information System (C)
+# Student Management System (C)
 
-A console-based **Student Information System** written in C.
-This project demonstrates dynamic memory management, structures, file handling, and basic CRUD operations.
-
-The program allows users to manage student records by adding, listing, searching, editing, and deleting students. Student information is stored permanently in a text file.
-
----
+A console-based Student Management System written in **C**, featuring dynamic memory allocation, modular source organization, and file persistence.
 
 ## Features
 
 * Add new students
 * List all students
-* Search students by name
-* Edit existing student information
+* Search students
+* Edit student information
 * Delete students
-* Save data permanently using file I/O
-* Dynamic memory allocation for student records
-* Automatic memory resizing with `realloc()`
+* Automatically save and load data from a text file
+* Dynamic memory management using `malloc()`, `calloc()`, `realloc()`, and `free()`
 
----
+## Technologies
 
-## Technologies Used
+* C (C17)
+* Standard C Library
+* Dynamic Memory Allocation
+* File I/O
+* Structures
+* Pointers
+* Modular Programming (`.c` / `.h`)
 
-* C Programming Language
-* Standard C Libraries:
+## Project Structure
 
-    * `stdio.h`
-    * `stdlib.h`
-    * `string.h`
-
----
+```text
+StudentManagement
+│
+├── main.c              # Program entry point
+├── studentInfo.c       # Student management functions
+├── studentInfo.h       # Structure definitions and function declarations
+├── studentList.txt     # Student database
+└── README.md
+```
 
 ## Concepts Practiced
 
-This project was created to practice intermediate C programming concepts:
+This project was built as part of learning the C programming language and focuses on the following concepts:
 
-### Structures
+* Functions
+* Structures (`struct`)
+* Header files (`.h`)
+* Source files (`.c`)
+* Function prototypes
+* Pointers
+* Pointer arithmetic
+* Dynamic memory allocation
+* Arrays of structures
+* File handling (`fopen`, `fclose`, `fscanf`, `fprintf`)
+* Modular programming
+* Memory management
 
-Student data is organized using a custom structure:
+## Data Storage
 
-```c
-typedef struct Students {
-    char* name;
-    char* year;
-    char* gpa;
-} Students;
+Student records are stored in a text file (`studentList.txt`) and are automatically loaded when the program starts.
+
+Example format:
+
+```text
+John Doe;2;3.75;
+Alice Smith;1;4.00;
 ```
 
-### Dynamic Memory Management
+## Memory Management
 
-The program uses:
+Every student record dynamically allocates memory for:
 
-* `calloc()` to allocate memory for the student list
-* `malloc()` to allocate memory for individual student information
-* `realloc()` to increase the size of the student array
-* `free()` to release allocated memory
+* Name
+* Academic Year
+* GPA
 
-### File I/O
+All allocated memory is released before the program exits to prevent memory leaks.
 
-Student information is stored in:
+## Future Improvements
 
-```
-studentList.txt
-```
+* Separate File I/O into its own module
+* Input validation improvements
+* Sort students by GPA or name
+* Export to CSV
+* Binary file support
+* Better error handling
+* Unit tests
 
-The program uses:
-
-* `fopen()`
-* `fprintf()`
-* `fscanf()`
-* `fgets()`
-* `fclose()`
-
-to read and write data.
-
----
-
-## Menu
-
-The program provides the following options:
-
-```
-=====Student Information System=====
-
-1- List of Student
-2- Add a Student
-3- Search a Student
-4- Delete a Student
-5- Edit a Student
-
-0- Exit
-```
-
----
-
-## Data Storage Format
-
-Student records are stored in the following format:
-
-```
-Name;Year;GPA;
-```
-
-Example:
-
-```
-John Smith;2;3.75;
-Alice Brown;1;4.20;
-```
-
----
-
-## How to Run
-
-### Compile
+## How to Compile
 
 Using GCC:
 
 ```bash
-gcc main.c -o StudentSystem
+gcc main.c studentInfo.c -o StudentManagement
 ```
 
-### Run
-
-Linux / macOS:
+Run:
 
 ```bash
-./StudentSystem
+./StudentManagement
 ```
 
-Windows:
+## Learning Purpose
 
-```bash
-StudentSystem.exe
-```
-
----
-
-## Project Structure
-
-```
-StudentInformationSystem/
-│
-├── main.c
-├── studentList.txt
-└── README.md
-```
-
----
-
-## Future Improvements
-
-Possible improvements for future versions:
-
-* Replace text file storage with binary file storage (`fread` / `fwrite`)
-* Add sorting functionality
-* Add student ID system
-* Improve error handling
-* Separate code into multiple source files (`.c` and `.h`)
-* Add password protection
-* Use dynamic string resizing instead of fixed allocations
-
----
+This project was created for educational purposes while learning C programming. The primary goal was to gain practical experience with memory management, pointers, file handling, and organizing larger C projects into multiple source and header files.
 
 ## Author
 
 **Furgan Gurbanli**
-
-This project was developed as a practice project while learning C programming, focusing on memory management and file operations.
